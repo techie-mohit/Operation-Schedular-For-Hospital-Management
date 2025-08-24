@@ -2,6 +2,8 @@
 
 A full-stack web application for hospital operation scheduling, built with Node.js (Express, MongoDB) for the backend and React (Vite, Tailwind CSS) for the frontend. Admins can manage doctors, patients, operation theatres, and surgeries. Users can register, login, and view their details.
 
+**Backend runs on `http://localhost:3000`** by default. All API endpoints are served from this address. The backend provides RESTful APIs for authentication, doctor/patient/OT/surgery management, and is the main data source for the frontend.
+
 ---
 
 ## Table of Contents
@@ -83,21 +85,30 @@ cd "Operation Scheduler"
 ```
 
 ### 2. Backend Setup
-```sh
+
+```
 cd backend
 npm install
 ```
+
 - Create a `.env` file with:
   ```env
   MONGO_URI=mongodb://localhost:27017/operation_scheduler
   JWT_SECRET=your_jwt_secret
   ```
+
 - Start the backend server:
   ```sh
   node index.js
   # or for development
   npx nodemon index.js
   ```
+
+**Backend will run on `http://localhost:3000`**
+
+You can test the backend by visiting [http://localhost:3000](http://localhost:3000) in your browser. You should see `Operation Scheduler API` as a response. All API endpoints (see below) are available under this base URL, e.g. `http://localhost:3000/api/auth/login`.
+
+The backend uses Express for routing, Mongoose for MongoDB integration, and includes authentication, role-based access, and CRUD operations for doctors, patients, operation theatres, and surgeries.
 
 ### 3. Frontend Setup
 ```sh
