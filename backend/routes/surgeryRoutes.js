@@ -1,19 +1,19 @@
-import { Router } from "express";
+import express from "express";
 import {
   createSurgery,
   getSurgeries,
   getSurgery,
   updateSurgery,
-  deleteSurgery
+  deleteSurgery,
 } from "../controllers/surgeryController.js";
-import { auth } from "../middleware/auth.js";
 
-const router = Router();
+const router = express.Router();
 
-router.post("/", auth(["admin"]), createSurgery);
-router.put("/:id", auth(["admin"]), updateSurgery);
-router.delete("/:id", auth(["admin"]), deleteSurgery);
-router.get("/", auth(["admin", "user"]), getSurgeries);
-router.get("/:id", auth(["admin", "user"]), getSurgery);
+// CRUD routes
+router.post("/", createSurgery);
+router.get("/", getSurgeries);
+router.get("/:id", getSurgery);
+router.put("/:id", updateSurgery);
+router.delete("/:id", deleteSurgery);
 
 export default router;

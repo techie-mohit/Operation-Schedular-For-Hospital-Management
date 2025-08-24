@@ -1,6 +1,6 @@
-import Surgery from "../models/surgery.js"; 
+import Surgery from "../models/surgery.js";
 
-// Create Surgery
+// ✅ Create Surgery
 export const createSurgery = async (req, res, next) => {
   try {
     const {
@@ -12,7 +12,7 @@ export const createSurgery = async (req, res, next) => {
       startTime,
       endTime,
       remarks,
-      status
+      status,
     } = req.body;
 
     const surgery = new Surgery({
@@ -24,17 +24,20 @@ export const createSurgery = async (req, res, next) => {
       startTime,
       endTime,
       remarks,
-      status
+      status,
     });
 
     await surgery.save();
-    res.status(201).json(surgery);
+    const populated = await Surgery.findById(surgery._id)
+      .populate("patient surgeon ot");
+
+    res.status(201).json(populated);
   } catch (err) {
     next(err);
   }
 };
 
-// Get all Surgeries
+// ✅ Get all Surgeries
 export const getSurgeries = async (req, res, next) => {
   try {
     const surgeries = await Surgery.find()
@@ -46,7 +49,7 @@ export const getSurgeries = async (req, res, next) => {
   }
 };
 
-// Get Surgery by ID
+// ✅ Get Surgery by ID
 export const getSurgery = async (req, res, next) => {
   try {
     const surgery = await Surgery.findById(req.params.id)
@@ -60,7 +63,7 @@ export const getSurgery = async (req, res, next) => {
   }
 };
 
-// Update Surgery
+// ✅ Update Surgery
 export const updateSurgery = async (req, res, next) => {
   try {
     const {
@@ -72,22 +75,12 @@ export const updateSurgery = async (req, res, next) => {
       startTime,
       endTime,
       remarks,
-      status
+      status,
     } = req.body;
 
     const surgery = await Surgery.findByIdAndUpdate(
       req.params.id,
-      {
-        patient,
-        surgeon,
-        nurses,
-        ot,
-        date,
-        startTime,
-        endTime,
-        remarks,
-        status
-      },
+      { patient, surgeon, nurses, ot, date, startTime, endTime, remarks, status },
       { new: true, runValidators: true }
     ).populate("patient surgeon ot");
 
@@ -99,7 +92,7 @@ export const updateSurgery = async (req, res, next) => {
   }
 };
 
-// Delete Surgery
+// ✅ Delete Surgery
 export const deleteSurgery = async (req, res, next) => {
   try {
     const surgery = await Surgery.findByIdAndDelete(req.params.id);
